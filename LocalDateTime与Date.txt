@@ -1,0 +1,55 @@
+在java中，使用Date类获取日期：获取的日期如下：
+Tue Sep 10 09:33:05 CST 2020
+
+通过使用 SimpleDateFormat 对日期进行格式化，使用SimpleDateFormat 中的
+format 方法，不是线程安全的。
+
+format 方法调用代码如下：
+private StringBuffer format(Date date, StringBuffer toAppendTo,
+                              FieldDelegate delegate) {
+        
+        calendar.setTime(date);
+
+        boolean useDateFormatSymbols = useDateFormatSymbols();
+
+        for (int i = 0; i < compiledPattern.length; ) {
+            int tag = compiledPattern[i] >>> 8;
+            int count = compiledPattern[i++] & 0xff;
+            if (count == 255) {
+                count = compiledPattern[i++] << 16;
+                count |= compiledPattern[i++];
+            }
+
+            switch (tag) {
+            case TAG_QUOTE_ASCII_CHAR:
+                toAppendTo.append((char)count);
+                break;
+
+            case TAG_QUOTE_CHARS:
+                toAppendTo.append(compiledPattern, i, count);
+                i += count;
+                break;
+
+            default:
+                subFormat(tag, count, delegate, toAppendTo, useDateFormatSymbols);
+                break;
+            }
+        }
+        return toAppendTo;
+    }
+
+在上述代码中，calendar是一个共享变量，且calendar没有进行线程安全控制。
+
+当多个线程使用同一个SimpleDateFormat 对象时，调用它的format方法，多个线程会同时调用calendar.setTime 方法
+在线程中，可能一个线程设置好了time值另外一个线程马上将time值进行了修改，导致返回时间是错误的。
+
+在SimpleDateFormat 中除了format方法外 parse方法在使用中也不是线程安全的。
+
+LocalDateTime 中的LocalDate、LocalTime、LocalDateTime分别为：获取年月日、获取时分秒、获取年月日时分秒。
+LocalDate.getYear() 获取年
+LocalDate.getMonth() 获取月
+LocalDate.getDayOfMonth() 获取当前月的日
+
+LocalTime.getHour() 获取时
+LocalTime.getMinute() 获取分
+LocalTime.getSecond() 获取秒
