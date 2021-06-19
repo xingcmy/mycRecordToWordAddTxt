@@ -1,0 +1,10 @@
+调度器
+任务
+触发器
+jobDetail
+trigger --> SimpleTrigger 、 CronTrigger
+scheduler --> start 、 stop
+Job --> 接口
+JobDetail
+JobBuilder
+JobStore
