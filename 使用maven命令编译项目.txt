@@ -1,0 +1,16 @@
+mvn clean package -DskipTests   -->   在项目的根路径编译项目
+mvn install:install-file -Dfile=jar包完整路径 -DgroupId=原项目的groupid -DartifactId=原项目的artifactId -Dversion=1.0 -Dpackaging=jar  -->    安装jar包到本地maven仓库
+jar包完整路径  -->  jar 包在本地的路径
+原项目的groupid  -->  比如com.example   maven 创建文件   <groupId>com.example</groupId>
+                                                     <artifactId>demo</artifactId>
+                                                     <version>0.0.1-SNAPSHOT</version>
+原项目的artifactId -->  比如demo
+<!--mvn install:install-file -Dfile=D:\MycProgram\java\algorithm\target\algorithm-1.0-SNAPSHOT.jar -DgroupId=com.example -DartifactId=demo -Dversion=1.0 -Dpackaging=jar-->
+
+maven --> pom.xml使用
+  <!--  ip地址解析-->
+  <dependency>
+      <groupId>com.example</groupId>
+      <artifactId>demo</artifactId>
+      <version>1.0</version>
+  </dependency>
