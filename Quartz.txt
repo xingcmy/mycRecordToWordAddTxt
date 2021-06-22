@@ -17,3 +17,9 @@ JobStore
     <artifactId>quartz</artifactId>
     <version>x.x.x</version>
 </dependency>
+
+每次执行Job 时会在调用execute方法前创建新的Job实例
+完成后Job对象会被释放
+
+JobDetail 为Job实例提供设置属性 、用于存储Job实例的状态信息
+调度器通过JobDetail 添加Job
